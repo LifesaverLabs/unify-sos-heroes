@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { useEffect, useRef, useState } from "react";
 import type { Feature, FeatureCollection } from "geojson";
+import L, { GeoJSON as LeafletGeoJSON, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Globe } from "lucide-react";
 
@@ -45,16 +45,72 @@ const popupHtmlForCountry = (countryName: string) => `
 `;
 
 const GlobalMovementMap = () => {
-  const [countriesData, setCountriesData] = useState<FeatureCollection | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const countriesLayerRef = useRef<LeafletGeoJSON | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!mapContainerRef.current || mapRef.current) return;
+
+    // Initialize Leaflet map with OpenStreetMap tiles
+    const map = L.map(mapContainerRef.current, {
+      center: [0, 0],
+      zoom: 2,
+      minZoom: 1,
+      maxZoom: 6,
+      worldCopyJump: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+    }).addTo(map);
+
+    mapRef.current = map;
+
     const loadCountries = async () => {
       try {
         const res = await fetch(COUNTRIES_GEOJSON_URL);
         if (!res.ok) throw new Error("Failed to load country data");
         const json = (await res.json()) as FeatureCollection;
-        setCountriesData(json);
+
+        if (!mapRef.current) return;
+
+        const countriesLayer = L.geoJSON(json as any, {
+          style: {
+            color: "hsl(222 84% 56%)", // approximate --primary
+            weight: 1,
+            fillColor: "hsl(222 84% 56%)",
+            fillOpacity: 0.1,
+          },
+          onEachFeature: (feature: Feature, layer) => {
+            const name =
+              (feature.properties as any)?.ADMIN ||
+              (feature.properties as any)?.name ||
+              "your country";
+
+            layer.on({
+              click: () => {
+                layer.bindPopup(popupHtmlForCountry(name)).openPopup();
+              },
+              mouseover: () => {
+                (layer as any).setStyle({
+                  weight: 1.5,
+                  fillOpacity: 0.3,
+                });
+              },
+              mouseout: () => {
+                (layer as any).setStyle({
+                  weight: 1,
+                  fillOpacity: 0.1,
+                });
+              },
+            });
+          },
+        }).addTo(mapRef.current);
+
+        countriesLayerRef.current = countriesLayer;
       } catch (err) {
         console.error("Error loading countries GeoJSON", err);
         setError("We couldn't load the country shapes right now. Please try again later.");
@@ -62,32 +118,14 @@ const GlobalMovementMap = () => {
     };
 
     loadCountries();
+
+    return () => {
+      countriesLayerRef.current?.remove();
+      mapRef.current?.remove();
+      countriesLayerRef.current = null;
+      mapRef.current = null;
+    };
   }, []);
-
-  const onEachCountry = (feature: Feature, layer: any) => {
-    const name =
-      (feature.properties as any)?.ADMIN ||
-      (feature.properties as any)?.name ||
-      "your country";
-
-    layer.on({
-      click: () => {
-        layer.bindPopup(popupHtmlForCountry(name)).openPopup();
-      },
-      mouseover: () => {
-        layer.setStyle({
-          weight: 1.5,
-          fillOpacity: 0.3,
-        });
-      },
-      mouseout: () => {
-        layer.setStyle({
-          weight: 1,
-          fillOpacity: 0.1,
-        });
-      },
-    });
-  };
 
   return (
     <section className="py-24 px-6 bg-muted/30">
@@ -114,46 +152,10 @@ const GlobalMovementMap = () => {
             </div>
           )}
 
-          {!countriesData ? (
-            <div className="flex items-center justify-center w-full h-[500px] md:h-[600px] bg-muted">
-              <p className="text-sm text-muted-foreground">
-                Loading global movement map…
-              </p>
-            </div>
-          ) : (
-            <div className="w-full h-[500px] md:h-[600px]">
-              <MapContainer
-                {...({
-                  center: [0, 0],
-                  zoom: 2,
-                  minZoom: 1.3,
-                  maxZoom: 6,
-                  className: "w-full h-full",
-                  attributionControl: false,
-                } as any)}
-              >
-                <TileLayer
-                  {...({
-                    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    attribution:
-                      "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
-                  } as any)}
-                />
-                <GeoJSON
-                  {...({
-                    data: countriesData as any,
-                    style: {
-                      color: "hsl(222 84% 56%)", // approximate --primary
-                      weight: 1,
-                      fillColor: "hsl(222 84% 56%)",
-                      fillOpacity: 0.1,
-                    },
-                    onEachFeature: onEachCountry as any,
-                  } as any)}
-                />
-              </MapContainer>
-            </div>
-          )}
+          <div
+            ref={mapContainerRef}
+            className="w-full h-[500px] md:h-[600px] bg-muted"
+          />
 
           <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10">
             <p className="text-xs text-muted-foreground">
