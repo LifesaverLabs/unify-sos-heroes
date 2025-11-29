@@ -17,27 +17,32 @@ const GlobalMovementMap = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v11",
-      projection: { name: "mercator" },
-      zoom: 1.5,
-      center: [20, 20],
+      projection: { name: "naturalEarth" },
+      zoom: 1.2,
+      center: [0, 0],
+      bearing: 180,
+      pitch: 0,
     });
 
     map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    map.current.on("load", () => {
+    map.current.on("load", async () => {
       if (!map.current) return;
+
+      // Fetch free country boundaries GeoJSON
+      const response = await fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson');
+      const countriesData = await response.json();
 
       // Add country boundaries layer
       map.current.addSource("countries", {
-        type: "vector",
-        url: "mapbox://mapbox.country-boundaries-v1",
+        type: "geojson",
+        data: countriesData,
       });
 
       map.current.addLayer({
         id: "country-fills",
         type: "fill",
         source: "countries",
-        "source-layer": "country_boundaries",
         paint: {
           "fill-color": "hsl(var(--primary))",
           "fill-opacity": [
@@ -53,7 +58,6 @@ const GlobalMovementMap = () => {
         id: "country-borders",
         type: "line",
         source: "countries",
-        "source-layer": "country_boundaries",
         paint: {
           "line-color": "hsl(var(--border))",
           "line-width": 1,
@@ -70,13 +74,13 @@ const GlobalMovementMap = () => {
         if (e.features && e.features.length > 0) {
           if (hoveredStateId !== null) {
             map.current.setFeatureState(
-              { source: "countries", sourceLayer: "country_boundaries", id: hoveredStateId },
+              { source: "countries", id: hoveredStateId },
               { hover: false }
             );
           }
           hoveredStateId = e.features[0].id as string | number;
           map.current.setFeatureState(
-            { source: "countries", sourceLayer: "country_boundaries", id: hoveredStateId },
+            { source: "countries", id: hoveredStateId },
             { hover: true }
           );
         }
@@ -87,7 +91,7 @@ const GlobalMovementMap = () => {
         map.current.getCanvas().style.cursor = "";
         if (hoveredStateId !== null) {
           map.current.setFeatureState(
-            { source: "countries", sourceLayer: "country_boundaries", id: hoveredStateId },
+            { source: "countries", id: hoveredStateId },
             { hover: false }
           );
         }
@@ -99,7 +103,7 @@ const GlobalMovementMap = () => {
         if (!map.current || !e.features || e.features.length === 0) return;
 
         const country = e.features[0];
-        const countryName = country.properties?.name_en || "your country";
+        const countryName = country.properties?.ADMIN || country.properties?.name || "your country";
         const coordinates = e.lngLat;
 
         const popupContent = `
