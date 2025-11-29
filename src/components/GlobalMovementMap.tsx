@@ -4,6 +4,18 @@ import L, { GeoJSON as LeafletGeoJSON, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Globe } from "lucide-react";
 
+// Add CSS to counter-rotate popups
+const style = document.createElement('style');
+style.textContent = `
+  .south-up-popup {
+    transform: rotate(180deg) scaleY(0.77) !important;
+  }
+  .south-up-popup .leaflet-popup-content-wrapper {
+    transform: none !important;
+  }
+`;
+document.head.appendChild(style);
+
 const COUNTRIES_GEOJSON_URL =
   "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
 
@@ -92,7 +104,9 @@ const GlobalMovementMap = () => {
 
             layer.on({
               click: () => {
-                layer.bindPopup(popupHtmlForCountry(name)).openPopup();
+                layer.bindPopup(popupHtmlForCountry(name), {
+                  className: 'south-up-popup'
+                }).openPopup();
               },
               mouseover: () => {
                 (layer as any).setStyle({
@@ -154,20 +168,29 @@ const GlobalMovementMap = () => {
 
           <div
             ref={mapContainerRef}
-            className="w-full h-[500px] md:h-[600px] bg-muted [&_.leaflet-container]:rotate-180 [&_.leaflet-popup]:rotate-180"
+            className="w-full h-[500px] md:h-[600px] bg-muted relative"
             style={{ 
-              transform: 'scaleY(1.3)',
+              transform: 'rotate(180deg) scaleY(1.3)',
               transformOrigin: 'center'
             }}
           />
 
-          <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10">
+          <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10"
+               style={{ transform: 'rotate(180deg) scaleY(0.77)' }}>
             <p className="text-xs text-muted-foreground mb-2">
               <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
             </p>
-            <p className="text-xs text-muted-foreground italic">
+            <p className="text-xs text-muted-foreground italic mb-2">
               South-up Peters projection view — challenging Eurocentric cartographic conventions.
             </p>
+            <a 
+              href="https://www.youtube.com/watch?v=vVX-PrBRtTY" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-xs text-primary hover:underline"
+            >
+              Why Peters projection? (West Wing clip)
+            </a>
           </div>
         </div>
       </div>
