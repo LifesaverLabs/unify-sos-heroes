@@ -89,7 +89,7 @@ export const Training = () => {
                 <div className="mt-1 h-6 w-6 rounded-full bg-trust/20 flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-bold text-trust">2</span>
                 </div>
-                <span><strong>Legal duty becomes achievable</strong> - Bad Samaritan laws are fair when everyone has access to training</span>
+                <span><strong>Legal duty becomes achievable</strong> - Dutiful Suffragist laws are fair when everyone has access to training</span>
               </li>
               <li className="flex items-start gap-3">
                 <div className="mt-1 h-6 w-6 rounded-full bg-trust/20 flex items-center justify-center flex-shrink-0">
@@ -106,7 +106,7 @@ export const Training = () => {
             </ul>
             <div className="p-4 bg-background rounded-lg border mt-6">
               <p className="text-sm">
-                <strong>The Complete Package:</strong> Good Samaritan immunity + Bad Samaritan duty + Free universal training = 
+                <strong>The Complete Package:</strong> Good Samaritan immunity + Dutiful Suffragist duty + Free universal training = 
                 A society where everyone can and will rise to upstander status when emergencies occur.
               </p>
             </div>
