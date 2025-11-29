@@ -16,7 +16,19 @@ const GlobalMovementMap = () => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: {
+        version: 8,
+        sources: {},
+        layers: [
+          {
+            id: "background",
+            type: "background",
+            paint: {
+              "background-color": "hsl(0, 0%, 98%)",
+            },
+          },
+        ],
+      },
       projection: { name: "naturalEarth" },
       zoom: 1.2,
       center: [0, 0],
