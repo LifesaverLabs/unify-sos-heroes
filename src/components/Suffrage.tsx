@@ -51,6 +51,36 @@ export const Suffrage = () => {
                   "The duty to rescue is inseparable from the right to participate. When we ask citizens to act heroically in emergencies, we must grant them democratic power over emergency policy, training access, and resource allocation. Suffrage for all sufferers."
                 </p>
               </div>
+
+              <div className="mt-8 p-6 bg-emergency/5 rounded-lg border-2 border-emergency/30">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emergency text-emergency-foreground flex-shrink-0">
+                    <Vote className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-xl font-bold text-emergency">Voting is Itself an SOS Duty</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">
+                  The exercise of suffrage in democracy is not merely a right—it is an <strong>emergency signal</strong> that we all above CPR age have a duty to discharge. Just as we have a duty to rescue those in immediate peril, we have a duty to rescue our communities, our democracy, and future generations through active participation in governance.
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-2">
+                    <div className="mt-1 h-2 w-2 rounded-full bg-emergency flex-shrink-0" />
+                    <span className="text-sm"><strong>Democracy is a perpetual emergency:</strong> Every election, every vote, every policy decision is a moment where lives hang in the balance—healthcare access, emergency response funding, climate action, public safety infrastructure.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="mt-1 h-2 w-2 rounded-full bg-emergency flex-shrink-0" />
+                    <span className="text-sm"><strong>Non-participation is abandonment:</strong> Just as standing by while someone drowns is inexcusable, standing by while democracy drowns in apathy, corruption, or authoritarianism is a form of bystander hesitation we cannot tolerate.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="mt-1 h-2 w-2 rounded-full bg-emergency flex-shrink-0" />
+                    <span className="text-sm"><strong>You are trained and capable:</strong> If you're old enough to perform CPR and save a life in crisis, you're old enough to discharge your democratic duty and save lives through policy, advocacy, and voting.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="mt-1 h-2 w-2 rounded-full bg-emergency flex-shrink-0" />
+                    <span className="text-sm"><strong>The signal must be answered:</strong> SOS means "Save Our Souls"—and democracy is the collective SOS of all sufferers calling for justice, protection, and life-affirming governance. Answer the call.</span>
+                  </li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
         </div>
