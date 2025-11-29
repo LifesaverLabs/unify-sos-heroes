@@ -168,14 +168,15 @@ const GlobalMovementMap = () => {
 
           <div
             ref={mapContainerRef}
-            className="w-full h-[500px] md:h-[600px] bg-muted [&_.leaflet-container]:rotate-180 [&_.leaflet-popup]:rotate-180"
+            className="w-full h-[500px] md:h-[600px] bg-muted relative"
             style={{ 
-              transform: 'scaleY(1.3)',
+              transform: 'rotate(180deg) scaleY(1.3)',
               transformOrigin: 'center'
             }}
           />
 
-          <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10">
+          <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10"
+               style={{ transform: 'rotate(180deg) scaleY(0.77)' }}>
             <p className="text-xs text-muted-foreground mb-2">
               <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
             </p>
