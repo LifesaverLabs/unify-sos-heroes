@@ -1,20 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Globe, MapPin } from "lucide-react";
+import { Globe } from "lucide-react";
+
+const MAPBOX_TOKEN = "pk.eyJ1IjoiZGF2aWRoYXJtc2xlc3MiLCJhIjoiY21pazZ1dmprMTlkYTNrb280Z3ZjeWRwNCJ9.tvOkUetFGdNKPoF_ghE05g";
 
 const GlobalMovementMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [mapboxToken, setMapboxToken] = useState("");
-  const [tokenSubmitted, setTokenSubmitted] = useState(false);
 
   useEffect(() => {
-    if (!mapContainer.current || !tokenSubmitted || !mapboxToken) return;
+    if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = mapboxToken;
+    mapboxgl.accessToken = MAPBOX_TOKEN;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -155,14 +153,7 @@ const GlobalMovementMap = () => {
     return () => {
       map.current?.remove();
     };
-  }, [tokenSubmitted, mapboxToken]);
-
-  const handleTokenSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (mapboxToken.trim()) {
-      setTokenSubmitted(true);
-    }
-  };
+  }, []);
 
   return (
     <section className="py-24 px-6 bg-muted/30">
@@ -180,49 +171,17 @@ const GlobalMovementMap = () => {
           </p>
         </div>
 
-        {!tokenSubmitted ? (
-          <div className="max-w-md mx-auto bg-card border border-border rounded-lg p-6 shadow-lg">
-            <div className="flex items-center gap-3 mb-4">
-              <MapPin className="h-5 w-5 text-primary" />
-              <h3 className="font-semibold">Enter Mapbox Token</h3>
-            </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              To display the interactive map, please enter your Mapbox public token. Get yours free at{" "}
-              <a
-                href="https://mapbox.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                mapbox.com
-              </a>
+        <div className="relative rounded-lg overflow-hidden shadow-2xl border border-border">
+          <div
+            ref={mapContainer}
+            className="w-full h-[500px] md:h-[600px]"
+          />
+          <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs">
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
             </p>
-            <form onSubmit={handleTokenSubmit} className="space-y-4">
-              <Input
-                type="text"
-                placeholder="pk.eyJ1Ijoi..."
-                value={mapboxToken}
-                onChange={(e) => setMapboxToken(e.target.value)}
-                className="font-mono text-sm"
-              />
-              <Button type="submit" className="w-full">
-                Load Map
-              </Button>
-            </form>
           </div>
-        ) : (
-          <div className="relative rounded-lg overflow-hidden shadow-2xl border border-border">
-            <div
-              ref={mapContainer}
-              className="w-full h-[500px] md:h-[600px]"
-            />
-            <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs">
-              <p className="text-xs text-muted-foreground">
-                <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
-              </p>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );
