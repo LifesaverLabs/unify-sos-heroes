@@ -27,7 +27,7 @@ const popupHtmlForCountry = (countryName: string) => `
       </li>
       <li class="flex items-start gap-2">
         <span class="text-emergency mt-0.5">•</span>
-        <span>Good & Bad Samaritan law consolidation</span>
+        <span>Good Samaritan & Dutiful Suffragist law consolidation</span>
       </li>
       <li class="flex items-start gap-2">
         <span class="text-emergency mt-0.5">•</span>
