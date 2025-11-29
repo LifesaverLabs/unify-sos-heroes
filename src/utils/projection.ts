@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import { geoCylindricalEqualArea } from 'd3-geo-projection';
 
 /**
  * Creates a Gall-Peters projection (cylindrical equal-area)
@@ -9,9 +9,8 @@ export function createProjection(
   height: number,
   centerLongitude: number = 20,
   southUp: boolean = true
-): any {
-  // @ts-ignore - geoCylindricalEqualArea exists in d3-geo
-  const projection = d3.geoCylindricalEqualArea()
+) {
+  const projection = geoCylindricalEqualArea()
     .parallel(45)                           // Gall-Peters standard parallel
     .rotate([-centerLongitude, 0])         // Center on Africa/Eurasia (20°E default)
     .translate([width / 2, height / 2])    // Center in viewport
@@ -23,3 +22,4 @@ export function createProjection(
 
   return projection;
 }
+
