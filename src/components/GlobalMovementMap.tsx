@@ -4,14 +4,15 @@ import L, { GeoJSON as LeafletGeoJSON, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Globe } from "lucide-react";
 
-// Add CSS to counter-rotate popups
+// Add CSS to counter-rotate popups so they display right-side-up
 const style = document.createElement('style');
 style.textContent = `
   .south-up-popup {
-    transform: rotate(180deg) scaleY(0.77) !important;
+    transform: rotate(180deg) scaleY(0.769) !important;
   }
-  .south-up-popup .leaflet-popup-content-wrapper {
-    transform: none !important;
+  .south-up-popup .leaflet-popup-content-wrapper,
+  .south-up-popup .leaflet-popup-tip-container {
+    transform: rotate(180deg) scaleY(1.3) !important;
   }
 `;
 document.head.appendChild(style);
