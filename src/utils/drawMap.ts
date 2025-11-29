@@ -18,6 +18,15 @@ export interface DrawMapOptions {
   southUp?: boolean;
 }
 
+/**
+ * Draws a Gall-Peters world map with D3.js
+ * Features:
+ * - South-up orientation (Antarctica at top)
+ * - Equal-area projection (accurately represents landmass sizes)
+ * - Africa/Eurasia centered
+ * - Interactive country selection
+ * - Responsive resize handling
+ */
 export function drawMap({
   container,
   onCountryClick,
@@ -27,7 +36,7 @@ export function drawMap({
   // Clear container
   container.innerHTML = '';
 
-  // Get dimensions
+  // Get dimensions (0.55 aspect ratio works well for Gall-Peters)
   const width = container.clientWidth;
   const height = width * 0.55;
 
@@ -36,20 +45,16 @@ export function drawMap({
     .append('svg')
     .attr('width', width)
     .attr('height', height)
-    .attr('class', 'w-full h-auto');
+    .attr('class', 'w-full h-auto')
+    .style('background', 'hsl(var(--background))');
 
   // Create projection
-  const projection = createProjection({
-    width,
-    height,
-    centerLongitude,
-    southUp,
-  });
+  const projection = createProjection(width, height, centerLongitude, southUp);
 
   // Create path generator
   const path = d3.geoPath().projection(projection);
 
-  // Create graticule
+  // Create graticule (lat/long grid lines)
   const graticule = d3.geoGraticule();
 
   // Add graticule lines
@@ -60,9 +65,9 @@ export function drawMap({
     .style('fill', 'none')
     .style('stroke', 'hsl(var(--border))')
     .style('stroke-width', '0.5px')
-    .style('stroke-opacity', '0.3');
+    .style('stroke-opacity', '0.2');
 
-  // Load and render world data
+  // Load and render world data from world-atlas
   d3.json<WorldData>('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     .then((world) => {
       if (!world) return;
@@ -81,18 +86,19 @@ export function drawMap({
         .join('path')
         .attr('d', path as any)
         .attr('class', 'country')
-        .style('fill', 'hsl(var(--primary) / 0.1)')
+        .style('fill', 'hsl(var(--primary) / 0.08)')
         .style('stroke', 'hsl(var(--primary))')
         .style('stroke-width', '0.5px')
         .style('cursor', 'pointer')
+        .style('transition', 'all 0.2s ease')
         .on('mouseenter', function() {
           d3.select(this)
-            .style('fill', 'hsl(var(--primary) / 0.3)')
-            .style('stroke-width', '1px');
+            .style('fill', 'hsl(var(--primary) / 0.25)')
+            .style('stroke-width', '1.5px');
         })
         .on('mouseleave', function() {
           d3.select(this)
-            .style('fill', 'hsl(var(--primary) / 0.1)')
+            .style('fill', 'hsl(var(--primary) / 0.08)')
             .style('stroke-width', '0.5px');
         })
         .on('click', function(event, d) {
@@ -108,7 +114,7 @@ export function drawMap({
       console.error('Error loading world data:', error);
     });
 
-  // Handle resize
+  // Handle window resize
   const resize = () => {
     const newWidth = container.clientWidth;
     const newHeight = newWidth * 0.55;
@@ -117,15 +123,10 @@ export function drawMap({
       .attr('width', newWidth)
       .attr('height', newHeight);
 
-    const newProjection = createProjection({
-      width: newWidth,
-      height: newHeight,
-      centerLongitude,
-      southUp,
-    });
-
+    const newProjection = createProjection(newWidth, newHeight, centerLongitude, southUp);
     const newPath = d3.geoPath().projection(newProjection);
 
+    // Update all paths with new projection
     svg.selectAll('path').attr('d', newPath as any);
   };
 

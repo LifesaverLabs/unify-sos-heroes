@@ -39,6 +39,16 @@ const popupHtmlForCountry = (countryName: string) => `
   </div>
 `;
 
+/**
+ * GlobalMovementMap Component
+ * 
+ * Renders an interactive world map using D3.js with:
+ * - Gall-Peters projection (cylindrical equal-area)
+ * - South-up orientation (Antarctica at top)
+ * - Africa/Eurasia centered (20°E default)
+ * - Interactive country selection
+ * - Toggle controls for orientation and center longitude
+ */
 const GlobalMovementMap = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<HTMLDivElement | null>(null);
@@ -51,6 +61,12 @@ const GlobalMovementMap = () => {
     if (!mapContainerRef.current) return;
 
     try {
+      // Clean up previous map instance
+      if (cleanupRef.current) {
+        cleanupRef.current();
+      }
+
+      // Draw new map with current settings
       cleanupRef.current = drawMap({
         container: mapContainerRef.current,
         onCountryClick: (countryName) => {
@@ -105,12 +121,13 @@ const GlobalMovementMap = () => {
             </div>
           )}
 
+          {/* D3 Map Container */}
           <div
             ref={mapContainerRef}
             className="w-full h-[500px] md:h-[600px] relative"
           />
 
-          {/* Popup overlay */}
+          {/* Country Selection Popup */}
           <div
             ref={popupRef}
             className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 max-w-md w-full mx-4"
@@ -118,18 +135,19 @@ const GlobalMovementMap = () => {
             <button
               onClick={closePopup}
               className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-card border border-border shadow-lg flex items-center justify-center hover:bg-muted transition-colors z-10"
+              aria-label="Close popup"
             >
               <span className="text-foreground text-xl leading-none">&times;</span>
             </button>
           </div>
 
-          {/* Map info and controls */}
+          {/* Map Controls and Info */}
           <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10">
             <p className="text-xs text-muted-foreground mb-2">
               <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
             </p>
             <p className="text-xs text-muted-foreground italic mb-2">
-              Gall-Peters projection (cylindrical equal-area), {southUp ? 'south-up' : 'north-up'}, centered near {centerLongitude}°E
+              Projection: Gall-Peters (cylindrical equal-area), {southUp ? 'south-up' : 'north-up'}, centered near {centerLongitude}°E
             </p>
             <a 
               href="https://www.youtube.com/watch?v=vVX-PrBRtTY" 
@@ -140,24 +158,28 @@ const GlobalMovementMap = () => {
               Why Peters projection? (West Wing clip)
             </a>
             
+            {/* Orientation Toggle */}
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => setSouthUp(!southUp)}
-                className="text-xs px-3 py-1.5 bg-primary/10 text-primary rounded hover:bg-primary/20 transition-colors"
+                className="text-xs px-3 py-1.5 bg-primary/10 text-primary rounded hover:bg-primary/20 transition-colors font-medium"
               >
-                Toggle: {southUp ? 'Switch to North-Up' : 'Switch to South-Up'}
+                {southUp ? '🌍 Switch to North-Up' : '🌏 Switch to South-Up'}
               </button>
               
+              {/* Center Longitude Selector */}
               <div className="flex gap-2">
+                <span className="text-xs text-muted-foreground self-center">Center:</span>
                 {[0, 20, 70].map((lon) => (
                   <button
                     key={lon}
                     onClick={() => setCenterLongitude(lon)}
-                    className={`text-xs px-2 py-1 rounded transition-colors ${
+                    className={`text-xs px-2 py-1 rounded transition-colors flex-1 ${
                       centerLongitude === lon
-                        ? 'bg-primary text-primary-foreground'
+                        ? 'bg-primary text-primary-foreground font-medium'
                         : 'bg-muted text-muted-foreground hover:bg-muted/80'
                     }`}
+                    title={lon === 0 ? 'Greenwich' : lon === 20 ? 'Africa/Eurasia' : 'East Asia'}
                   >
                     {lon}°E
                   </button>
