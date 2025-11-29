@@ -53,7 +53,7 @@ const GlobalMovementMap = () => {
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
-    // Initialize Leaflet map with OpenStreetMap tiles
+    // Initialize Leaflet map with OpenStreetMap tiles (south-up orientation)
     const map = L.map(mapContainerRef.current, {
       center: [0, 0],
       zoom: 2,
@@ -154,12 +154,19 @@ const GlobalMovementMap = () => {
 
           <div
             ref={mapContainerRef}
-            className="w-full h-[500px] md:h-[600px] bg-muted"
+            className="w-full h-[500px] md:h-[600px] bg-muted [&_.leaflet-container]:rotate-180 [&_.leaflet-popup]:rotate-180"
+            style={{ 
+              transform: 'scaleY(1.3)',
+              transformOrigin: 'center'
+            }}
           />
 
           <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mb-2">
               <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
+            </p>
+            <p className="text-xs text-muted-foreground italic">
+              South-up Peters projection view — challenging Eurocentric cartographic conventions.
             </p>
           </div>
         </div>
