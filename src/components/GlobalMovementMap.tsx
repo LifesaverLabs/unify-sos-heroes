@@ -52,6 +52,7 @@ const popupHtmlForCountry = (countryName: string) => `
 const GlobalMovementMap = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<HTMLDivElement | null>(null);
+  const popupBackdropRef = useRef<HTMLDivElement | null>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [southUp, setSouthUp] = useState(true);
@@ -70,9 +71,9 @@ const GlobalMovementMap = () => {
       cleanupRef.current = drawMap({
         container: mapContainerRef.current,
         onCountryClick: (countryName) => {
-          if (popupRef.current) {
+          if (popupRef.current && popupBackdropRef.current) {
             popupRef.current.innerHTML = popupHtmlForCountry(countryName);
-            popupRef.current.classList.remove('hidden');
+            popupBackdropRef.current.classList.remove('hidden');
           }
         },
         centerLongitude,
@@ -91,8 +92,8 @@ const GlobalMovementMap = () => {
   }, [centerLongitude, southUp]);
 
   const closePopup = () => {
-    if (popupRef.current) {
-      popupRef.current.classList.add('hidden');
+    if (popupBackdropRef.current) {
+      popupBackdropRef.current.classList.add('hidden');
     }
   };
 
@@ -127,18 +128,29 @@ const GlobalMovementMap = () => {
             className="w-full h-[500px] md:h-[600px] relative"
           />
 
-          {/* Country Selection Popup */}
+          {/* Country Selection Popup with Backdrop */}
           <div
-            ref={popupRef}
-            className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 max-w-md w-full mx-4"
+            ref={popupBackdropRef}
+            className="hidden absolute inset-0 z-30 bg-background/60 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                closePopup();
+              }
+            }}
           >
-            <button
-              onClick={closePopup}
-              className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-card border border-border shadow-lg flex items-center justify-center hover:bg-muted transition-colors z-10"
-              aria-label="Close popup"
+            <div
+              ref={popupRef}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-md w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
             >
-              <span className="text-foreground text-xl leading-none">&times;</span>
-            </button>
+              <button
+                onClick={closePopup}
+                className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-card border border-border shadow-lg flex items-center justify-center hover:bg-muted transition-colors z-10"
+                aria-label="Close popup"
+              >
+                <span className="text-foreground text-xl leading-none">&times;</span>
+              </button>
+            </div>
           </div>
 
           {/* Map Controls and Info */}
