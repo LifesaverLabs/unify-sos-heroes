@@ -24,7 +24,7 @@ export const Hero = () => {
           </h1>
 
           <p className="mb-8 text-lg text-white/90 sm:text-xl md:text-2xl max-w-3xl mx-auto">
-            Unifying Good Samaritan protections and Bad Samaritan duties worldwide. 
+            Unifying Good Samaritan protections and Dutiful Samaritan duties worldwide. 
             Consolidating emergency numbers globally. Empowering everyone to become an upstander.
           </p>
 
