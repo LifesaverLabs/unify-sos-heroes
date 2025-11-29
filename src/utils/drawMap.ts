@@ -48,6 +48,9 @@ export function drawMap({
     .attr('class', 'w-full h-auto')
     .style('background', 'hsl(var(--background))');
 
+  // Create a group for all map elements (so zoom applies to everything)
+  const g = svg.append('g');
+
   // Create projection
   const projection = createProjection(width, height, centerLongitude, southUp);
 
@@ -57,8 +60,8 @@ export function drawMap({
   // Create graticule (lat/long grid lines)
   const graticule = d3.geoGraticule();
 
-  // Add graticule lines
-  svg.append('path')
+  // Add graticule lines to the group
+  g.append('path')
     .datum(graticule)
     .attr('class', 'graticule')
     .attr('d', path)
@@ -66,6 +69,16 @@ export function drawMap({
     .style('stroke', 'hsl(var(--border))')
     .style('stroke-width', '0.5px')
     .style('stroke-opacity', '0.2');
+
+  // Setup zoom behavior
+  const zoom = d3.zoom()
+    .scaleExtent([1, 8]) // Allow zoom from 1x to 8x
+    .on('zoom', (event) => {
+      g.attr('transform', event.transform);
+    });
+
+  // Apply zoom to SVG
+  svg.call(zoom as any);
 
   // Load and render world data from world-atlas
   d3.json<WorldData>('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
@@ -78,8 +91,8 @@ export function drawMap({
         world.objects.countries
       ) as FeatureCollection;
 
-      // Draw countries
-      svg.append('g')
+      // Draw countries in the zoomable group
+      g.append('g')
         .attr('class', 'countries')
         .selectAll('path')
         .data(countries.features)
@@ -127,7 +140,7 @@ export function drawMap({
     const newPath = d3.geoPath().projection(newProjection);
 
     // Update all paths with new projection
-    svg.selectAll('path').attr('d', newPath as any);
+    g.selectAll('path').attr('d', newPath as any);
   };
 
   window.addEventListener('resize', resize);
