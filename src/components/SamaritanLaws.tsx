@@ -11,7 +11,7 @@ export const SamaritanLaws = () => {
             Dual Protection & Duty Framework
           </h2>
           <p className="text-lg text-muted-foreground">
-            We advocate for universal implementation of both Good Samaritan immunity and Dutiful Samaritan duty-to-rescue laws worldwide.
+            We advocate for universal implementation of both Good Samaritan immunity and Dutiful Humanist duty-to-rescue laws worldwide.
           </p>
         </div>
 
@@ -57,13 +57,13 @@ export const SamaritanLaws = () => {
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emergency text-emergency-foreground">
                   <Scale className="h-6 w-6" />
                 </div>
-                <CardTitle className="text-2xl">Dutiful Samaritan Laws</CardTitle>
+                <CardTitle className="text-2xl">Dutiful Humanist Laws</CardTitle>
               </div>
               <CardDescription>Legal duty to assist and report</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                Dutiful Samaritan laws impose a legal duty to rescue or report emergencies, with civil or criminal penalties for failing to help when able to do so safely.
+                Dutiful Humanist laws impose a legal duty to rescue or report emergencies, with civil or criminal penalties for failing to help when able to do so safely.
               </p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
@@ -98,7 +98,7 @@ export const SamaritanLaws = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-muted-foreground">
-              We advocate for every country to adopt <strong>both</strong> Good Samaritan immunity and Dutiful Samaritan duty-to-rescue laws simultaneously. This dual approach:
+              We advocate for every country to adopt <strong>both</strong> Good Samaritan immunity and Dutiful Humanist duty-to-rescue laws simultaneously. This dual approach:
             </p>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
@@ -132,7 +132,7 @@ export const SamaritanLaws = () => {
               <h3 className="text-lg font-semibold mb-2">Research Foundation</h3>
               <p className="text-muted-foreground mb-4">
                 This initiative builds on the comprehensive research of <strong>Zachary D. Kaufman</strong>, 
-                whose work on Dutiful Samaritan laws worldwide has documented the global landscape of duty-to-rescue legislation.
+                whose work on Dutiful Humanist laws worldwide has documented the global landscape of duty-to-rescue legislation.
               </p>
               <Button variant="outline" asChild>
                 <a 
