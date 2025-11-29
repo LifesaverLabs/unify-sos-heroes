@@ -156,7 +156,7 @@ const GlobalMovementMap = () => {
           {/* Map Controls and Info */}
           <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg max-w-xs z-10">
             <p className="text-xs text-muted-foreground mb-2">
-              <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement!
+              <strong className="text-foreground">Tip:</strong> Click any country to start a local Unify SOS movement! Use scroll/pinch to zoom.
             </p>
             <p className="text-xs text-muted-foreground italic mb-2">
               Projection: Gall-Peters (cylindrical equal-area), {southUp ? 'south-up' : 'north-up'}, centered near {centerLongitude}°E
