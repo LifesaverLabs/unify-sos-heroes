@@ -65,7 +65,7 @@ export const Suffrage = () => {
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
                     <div className="mt-1 h-2 w-2 rounded-full bg-emergency flex-shrink-0" />
-                    <span className="text-sm"><strong>Democracy is a perpetual emergency:</strong> Every election, every vote, every policy decision is a moment where lives hang in the balance—healthcare access, emergency response funding, climate action, public safety infrastructure.</span>
+                    <span className="text-sm"><strong>Democracy is a perpetual emergency:</strong> Every election, every vote, every policy decision is a moment where lives hang in the balance—healthcare access, emergency response funding, climate action, public safety infrastructure, protection or prevention of the unborn.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="mt-1 h-2 w-2 rounded-full bg-emergency flex-shrink-0" />
