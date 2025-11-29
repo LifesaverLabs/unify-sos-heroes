@@ -1,73 +1,111 @@
-# Welcome to your Lovable project
+# Unify SOS
 
-## Project info
+**One World, One Emergency Number, One Duty to Help**
 
-**URL**: https://lovable.dev/projects/e6a20ebd-d3b1-4ba4-a4ec-c63951c08397
+A global initiative to unify Good Samaritan protections and Dutiful Suffragist duties worldwide, advocating for consolidated emergency numbers (112 or 123) for universal access to emergency services.
 
-## How can I edit this code?
+## About
 
-There are several ways of editing your application.
+Unify SOS is a web-based advocacy platform that promotes:
 
-**Use Lovable**
+- **Universal Good Samaritan immunity** - Protecting those who help in emergencies
+- **Dutiful Suffragist duty-to-rescue laws** - Creating legal obligations to assist others in distress
+- **Unified emergency numbers** - Consolidating global emergency contact numbers to 112 or 123
+- **Emergency response training** - Promoting CPR and first aid education worldwide
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e6a20ebd-d3b1-4ba4-a4ec-c63951c08397) and start prompting.
+## Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+This project is built with modern web technologies:
 
-**Use your preferred IDE**
+- **Vite** - Fast build tool and dev server
+- **TypeScript** - Type-safe JavaScript
+- **React** - UI framework
+- **shadcn/ui** - Accessible component library
+- **Tailwind CSS** - Utility-first styling
+- **React Router** - Client-side routing
+- **React Query** - Data fetching and state management
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Prerequisites
 
-Follow these steps:
+- Node.js (install with [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- npm or yarn
+
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone <repository-url>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd unify-sos-heroes
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Available Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── components/     # React components
+├── pages/          # Page components
+├── lib/            # Utility functions
+└── main.tsx        # Application entry point
+```
 
-This project is built with:
+## Contributing
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/e6a20ebd-d3b1-4ba4-a4ec-c63951c08397) and click on Share -> Publish.
+### Code
 
-## Can I connect a custom domain to my Lovable project?
+The code in this repository is licensed under the MIT License.
 
-Yes, you can!
+Copyright (c) 2025 Lifesaver Labs Coalition
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+### Content
+
+All content (text, images, and other non-code materials) in this repository is licensed under the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+
+To the extent possible under law, Lifesaver Labs Coalition has waived all copyright and related or neighboring rights to the content. This work is published from: United States.
+
+For more information, see: https://creativecommons.org/publicdomain/zero/1.0/
+
+## Contact
+
+For more information about the Unify SOS initiative, visit our website or reach out through our contact channels.
