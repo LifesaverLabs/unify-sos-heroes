@@ -28,7 +28,7 @@ export const Hero = () => {
             Consolidating emergency numbers globally. Empowering everyone to become an upstander.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
             <Button
               size="lg"
               variant="secondary"
@@ -45,6 +45,16 @@ export const Hero = () => {
             >
               <Phone className="mr-2 h-5 w-5" />
               Unify Emergency Numbers
+            </Button>
+            <Button
+              size="lg"
+              asChild
+              className="text-lg px-8 py-6 h-auto bg-white text-emergency hover:bg-white/90"
+            >
+              <a href="https://www.nayborsos.org" target="_blank" rel="noopener noreferrer">
+                <AlertCircle className="mr-2 h-5 w-5" />
+                Join Naybor SOS Project
+              </a>
             </Button>
           </div>
 
